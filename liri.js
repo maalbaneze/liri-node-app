@@ -24,8 +24,6 @@ for (var i = 4; i < process.argv.length; i++) {
 }
 
 
-
-
 // Include the axios npm package
 var axios = require("axios");
 
