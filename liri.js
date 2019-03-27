@@ -1,4 +1,5 @@
 // All npms were installed to project path (spotify, axios, moment, dotenv)
+// Require dotenv early in code as stated in dotenv documentation
 
 require("dotenv").config();
 
