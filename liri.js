@@ -6,6 +6,9 @@ require("dotenv").config();
 var keys = require("./keys.js");
 var request = require("request");
 
+//creates log.txt file
+var filename = "./log.txt";
+
 var Spotify = require("node-spotify-api");
 
 //argv[2] chooses users actions; argv[3] is user input parameter(ex.; movie title)
@@ -72,18 +75,17 @@ var getConcert = function (artist) {
             if (!error && response.statusCode === 200) {
                 var body = JSON.parse(body);
 
-                //Simultaneously output to console and log.txt via NPM simple-node-logger
-                logOutput('================ Movie Info ================');
-                logOutput("Title: " + body.Title);
-                logOutput("Release Year: " + body.Year);
-                logOutput("IMdB Rating: " + body.imdbRating);
-                logOutput("Country: " + body.Country);
-                logOutput("Language: " + body.Language);
-                logOutput("Plot: " + body.Plot);
-                logOutput("Actors: " + body.Actors);
-                logOutput("Rotten Tomatoes Rating: " + body.Ratings[2].Value);
-                logOutput("Rotten Tomatoes URL: " + body.tomatoURL);
-                logOutput('==================THE END=================');
+                //Output to console.log ands log.txt
+                console.log('================ Movie Info ================');
+                console.log("Title: " + body.Title);
+                console.log("Release Year: " + body.Year);
+                console.log("IMdB Rating: " + body.imdbRating);
+                console.log("Rotten Tomatoes Rating: " + body.Ratings[2].Value);
+                console.log("Country: " + body.Country);
+                console.log("Language: " + body.Language);
+                console.log("Plot: " + body.Plot);
+                console.log("Actors: " + body.Actors);
+                console.log('==================THE END=================');
 
             } else {
                 //else - throw as an error
@@ -110,7 +112,8 @@ var getConcert = function (artist) {
     // Function for running a Spotify search - Command is spotify-this-song
     var getSpotify = function (songName) {
         if (songName === undefined) {
-            songName = "I Want it That Way";
+            songName = "The Sign";
+            artist = "Ace of Base";
         }
 
         spotify.search(
@@ -124,15 +127,15 @@ var getConcert = function (artist) {
                     return;
                 }
 
-                var songs = data.tracks.items;
+                var songs = data.tracks.items();
 
                 for (var i = 0; i < songs.length; i++) {
                     console.log(i);
-                    console.log("artist(s): " + songs[i].artists.map(getArtistNames));
-                    console.log("song name: " + songs[i].name);
-                    console.log("preview song: " + songs[i].preview_url);
-                    console.log("album: " + songs[i].album.name);
-                    console.log("-----------------------------------");
+                    logOutput("artist(s): " + songs[i].artists.map(getArtistNames));
+                    logOutput("song name: " + songs[i].name);
+                    logOutput("preview song: " + songs[i].preview_url);
+                    logOutput("album: " + songs[i].album.name);
+                    logOutput("-----------------------------------");
                 }
             }
         );
